@@ -1,0 +1,29 @@
+{
+  "uf": "SP",
+  "municipio": "São Paulo",
+  "zona": 1,
+  "secao": 1,
+  "total_votos": 283,
+  "candidatos": [
+    {
+      "numero": 10,
+      "nome": "Candidato A",
+      "votos": 132
+    },
+    {
+      "numero": 20,
+      "nome": "Candidato B",
+      "votos": 98
+    },
+    {
+      "numero": 30,
+      "nome": "Candidato C",
+      "votos": 41
+    },
+    {
+      "numero": 40,
+      "nome": "Candidato D",
+      "votos": 12
+    }
+  ]
+}
