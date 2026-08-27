@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+﻿import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase";
 
@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           sucesso: false,
-          erro: "localidade_id é obrigatório.",
+          erro: "localidade_id Ã© obrigatÃ³rio.",
         },
         { status: 400 }
       );
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           sucesso: false,
-          erro: "localidade_id inválido.",
+          erro: "localidade_id invÃ¡lido.",
         },
         { status: 400 }
       );
@@ -97,14 +97,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           sucesso: false,
-          erro: "Localidade não encontrada.",
+          erro: "Localidade nÃ£o encontrada.",
         },
         { status: 404 }
       );
     }
 
     // =====================================================
-    // RESULTADOS DA SEÇÃO
+    // RESULTADOS DA SEÃ‡ÃƒO
     // =====================================================
 
     const {
@@ -141,24 +141,21 @@ export async function GET(request: NextRequest) {
     const candidatos: ResultadoCandidato[] =
       (resultados ?? [])
         .filter(
-          (item) => item.candidatos
+          (item) =>
+            Array.isArray(item.candidatos) &&
+            item.candidatos.length > 0
         )
-        .map((item) => ({
-          numero:
-            item.candidatos!.numero,
+        .map((item) => {
+          const candidato = item.candidatos[0];
 
-          nome:
-            item.candidatos!.nome,
-
-          nome_urna:
-            item.candidatos!.nome_urna,
-
-          partido:
-            item.candidatos!.partido,
-
-          votos:
-            Number(item.votos),
-        }))
+          return {
+            numero: Number(candidato?.numero ?? 0),
+            nome: String(candidato?.nome ?? ""),
+            nome_urna: candidato?.nome_urna ?? null,
+            partido: candidato?.partido ?? null,
+            votos: Number(item.votos),
+          };
+        })
         .sort(
           (a, b) =>
             b.votos - a.votos
@@ -255,7 +252,7 @@ export async function GET(request: NextRequest) {
     }
 
     // =====================================================
-    // HASH DO JSON DE DEMONSTRAÇÃO
+    // HASH DO JSON DE DEMONSTRAÃ‡ÃƒO
     // =====================================================
 
     const hashCalculado =
@@ -329,7 +326,7 @@ export async function GET(request: NextRequest) {
     }
 
     // =====================================================
-    // COMPARAÇÃO DOS CANDIDATOS
+    // COMPARAÃ‡ÃƒO DOS CANDIDATOS
     // =====================================================
 
     const numeros =
@@ -415,7 +412,7 @@ export async function GET(request: NextRequest) {
       totalResultado;
 
     // =====================================================
-    // STATUS DA COMPARAÇÃO
+    // STATUS DA COMPARAÃ‡ÃƒO
     // =====================================================
 
     const statusComparacao =
@@ -425,7 +422,7 @@ export async function GET(request: NextRequest) {
         : "divergente";
 
     // =====================================================
-    // STATUS DO HISTÓRICO
+    // STATUS DO HISTÃ“RICO
     // =====================================================
 
     const statusHistorico =
@@ -445,7 +442,7 @@ export async function GET(request: NextRequest) {
      * o estado da auditoria neste instante.
      *
      * Se todos esses valores permanecerem
-     * iguais, não criamos outro registro.
+     * iguais, nÃ£o criamos outro registro.
      */
 
     const snapshotPayload =
@@ -480,7 +477,7 @@ export async function GET(request: NextRequest) {
       );
 
     // =====================================================
-    // ÚLTIMO SNAPSHOT
+    // ÃšLTIMO SNAPSHOT
     // =====================================================
 
     const {
@@ -506,7 +503,7 @@ export async function GET(request: NextRequest) {
 
     if (ultimoHistoricoError) {
       console.error(
-        "Erro ao consultar último histórico:",
+        "Erro ao consultar Ãºltimo histÃ³rico:",
         ultimoHistoricoError
       );
     }
@@ -561,7 +558,7 @@ export async function GET(request: NextRequest) {
 
       if (historicoError) {
         console.error(
-          "Erro ao gravar histórico:",
+          "Erro ao gravar histÃ³rico:",
           historicoError
         );
       }

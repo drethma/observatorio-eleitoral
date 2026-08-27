@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase";
 
 type Resultado = {
@@ -151,8 +151,42 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const resultados =
-      (data ?? []) as Resultado[];
+    const resultados: Resultado[] =
+      (data ?? [])
+        .filter(
+          (item) =>
+            Array.isArray(item.candidatos) &&
+            item.candidatos.length > 0
+        )
+        .map((item) => {
+          const candidato =
+            item.candidatos[0];
+
+          return {
+            votos:
+              Number(item.votos),
+
+            candidato_id:
+              Number(item.candidato_id),
+
+            localidade_id:
+              Number(item.localidade_id),
+
+            candidatos: {
+              numero:
+                Number(candidato?.numero ?? 0),
+
+              nome:
+                String(candidato?.nome ?? ""),
+
+              nome_urna:
+                candidato?.nome_urna ?? null,
+
+              partido:
+                candidato?.partido ?? null,
+            },
+          };
+        });
 
     // ======================================================
     // AGRUPAR CANDIDATOS
@@ -244,18 +278,18 @@ export async function GET(request: NextRequest) {
       );
 
     // ======================================================
-    // TOTALIZAÇÃO
+    // TOTALIZAÃ‡ÃƒO
     // ======================================================
 
     /*
-     * Número de seções existentes
+     * NÃºmero de seÃ§Ãµes existentes
      * no filtro atual.
      */
     const totalSecoes =
       localidades?.length ?? 0;
 
     /*
-     * Seções que possuem pelo menos
+     * SeÃ§Ãµes que possuem pelo menos
      * um resultado processado.
      */
     const secoesProcessadas =

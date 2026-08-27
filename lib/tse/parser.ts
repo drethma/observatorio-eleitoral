@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+﻿import { createHash } from "node:crypto";
 
 export type TseRawJson =
   | Record<string, unknown>
@@ -91,7 +91,7 @@ export function asString(
 }
 
 /**
- * Converte valores numéricos do JSON.
+ * Converte valores numÃ©ricos do JSON.
  */
 export function asNumber(
   value: unknown
@@ -115,7 +115,7 @@ export function asNumber(
 }
 
 /**
- * Extrai um objeto quando possível.
+ * Extrai um objeto quando possÃ­vel.
  */
 export function asRecord(
   value: unknown
@@ -135,10 +135,10 @@ export function asRecord(
 }
 
 /**
- * SHA-256 do conteúdo JSON normalizado.
+ * SHA-256 do conteÃºdo JSON normalizado.
  *
- * Mantemos a função aqui para que todo arquivo
- * ingerido tenha uma impressão digital própria.
+ * Mantemos a funÃ§Ã£o aqui para que todo arquivo
+ * ingerido tenha uma impressÃ£o digital prÃ³pria.
  */
 export function sha256Json(
   value: unknown
@@ -154,7 +154,7 @@ export function sha256Json(
 /**
  * Normaliza um documento recebido da CDN.
  *
- * Não altera o conteúdo original.
+ * NÃ£o altera o conteÃºdo original.
  */
 export function normalizeDocument(
   input: {
@@ -201,8 +201,8 @@ export function normalizeDocument(
  * Procura recursivamente valores associados
  * a uma chave.
  *
- * É útil porque não vamos pressupor ainda
- * uma única posição dos campos nos JSON.
+ * Ã‰ Ãºtil porque nÃ£o vamos pressupor ainda
+ * uma Ãºnica posiÃ§Ã£o dos campos nos JSON.
  */
 export function findAllByKey(
   value: unknown,
@@ -298,7 +298,7 @@ export function extractUf(
 }
 
 /**
- * Extrai município.
+ * Extrai municÃ­pio.
  */
 export function extractMunicipio(
   value: Record<string, unknown>
@@ -349,14 +349,14 @@ export function extractZona(
 }
 
 /**
- * Extrai seção.
+ * Extrai seÃ§Ã£o.
  */
 export function extractSecao(
   value: Record<string, unknown>
 ): number | null {
   const chaves = [
     "secao",
-    "seção",
+    "seÃ§Ã£o",
     "nr_secao",
     "nr_secao",
     "cd_secao",
@@ -376,10 +376,10 @@ export function extractSecao(
 }
 
 /**
- * Extrai referência de seção.
+ * Extrai referÃªncia de seÃ§Ã£o.
  *
- * Não considera isso como prova de que
- * o objeto é EA16. Apenas normaliza os
+ * NÃ£o considera isso como prova de que
+ * o objeto Ã© EA16. Apenas normaliza os
  * campos quando existirem.
  */
 export function extractSectionReference(
@@ -444,9 +444,9 @@ export function extractSectionReference(
  * Tenta identificar uma lista de candidatos
  * em estruturas comuns do EA20.
  *
- * Esta função é deliberadamente conservadora:
- * se não conseguirmos identificar a estrutura,
- * ela não inventa candidatos.
+ * Esta funÃ§Ã£o Ã© deliberadamente conservadora:
+ * se nÃ£o conseguirmos identificar a estrutura,
+ * ela nÃ£o inventa candidatos.
  */
 export function extractCandidates(
   value: unknown
@@ -493,7 +493,7 @@ export function extractCandidates(
   }
 
   /*
-   * Remove duplicações estruturais.
+   * Remove duplicaÃ§Ãµes estruturais.
    */
   const mapa = new Map<
     string,
@@ -518,7 +518,7 @@ export function extractCandidates(
 /**
  * Normaliza um candidato individual
  * somente quando conseguimos identificar
- * seu número.
+ * seu nÃºmero.
  */
 function normalizeCandidate(
   value: unknown
@@ -576,7 +576,7 @@ function normalizeCandidate(
 }
 
 /**
- * Tenta determinar a abrangência.
+ * Tenta determinar a abrangÃªncia.
  */
 export function detectAbrangencia(
   value: Record<string, unknown>
@@ -607,7 +607,7 @@ export function detectAbrangencia(
     texto === "BRASIL" ||
     texto === "FEDERAL"
   ) {
-    return "BRASIL";
+    return "BR";
   }
 
   if (
@@ -619,7 +619,7 @@ export function detectAbrangencia(
 
   if (
     texto === "MUNICIPIO" ||
-    texto === "MUNICÍPIO"
+    texto === "MUNICÃPIO"
   ) {
     return "MUNICIPIO";
   }
@@ -632,7 +632,7 @@ export function detectAbrangencia(
 
   if (
     texto === "SECAO" ||
-    texto === "SEÇÃO"
+    texto === "SEÃ‡ÃƒO"
   ) {
     return "SECAO";
   }
@@ -643,10 +643,10 @@ export function detectAbrangencia(
 /**
  * Normaliza um documento EA20.
  *
- * Não fazemos mapeamento definitivo do TSE
+ * NÃ£o fazemos mapeamento definitivo do TSE
  * para Supabase aqui ainda.
  *
- * Primeiro preservamos o conteúdo original.
+ * Primeiro preservamos o conteÃºdo original.
  */
 export function normalizeEA20(
   dados: Record<string, unknown>
